@@ -37,12 +37,14 @@ The basic and minimum way how to implement HCO API is to at least implement:
     - Special URLs for customers that shows payment success or rejection (more info [here](#introduction/getting-started/parameters-added-to-your-return-urls)).
 1. [Application notification](#reference/merchantsite-resources/application-notification)
     - This endpoint has to be exposed on your side to allow HC back-end to asynchronously notify you about the important changes regarding particular applications.
-1. [Mark order items as shipped/delivered](#reference/application-resources/mark-order-as-shipped)
-    - Home Credit does not start the process of financial compensation unless the `order` is marked as `SHIPPED` or `DELIVERED` .
+1. [Mark order items as delivered](#reference/application-resources/mark-order-as-delivered)
+    - Home Credit does not start the process of financial compensation unless the `order` is marked as `DELIVERED` .
 
 <!-- diagram minimální implementace -->
+[![Sequence diagram of minimum implementation](https://github.com/mdostal-hci/oneclick-images/raw/master/SequenceDiagramInstallmentMinimum.png)](https://github.com/mdostal-hci/oneclick-images/raw/master/SequenceDiagramInstallmentMinimum.png)
 
 <!-- stavový diagram žádosti / objednávky -->
+[![State diagram of Application](https://github.com/mdostal-hci/oneclick-images/raw/master/StateDiagramApplication.png)](https://github.com/mdostal-hci/oneclick-images/raw/master/StateDiagramApplication.png)
 
 It is necessary to fill in all attributes marked as 'required' in the request. Filling optional parameters will result in a better application approval rate. Partner should always consider filling as many attributes as possible.
 
@@ -271,10 +273,10 @@ Use `/financing/v3/applications` resource with properly filled request that cont
 - Order (or other product) details
   - Type of order (`CAR_LOAN`)
   - Total Price (including VAT)
-  - Order items (array, at least one item is required for `STANDARD` order type)
+  - Order number (internal for partner)
+  - Order items (array)
     - Order item name
-    - Total price (all pieces, including VAT)
-  - Name of the original e-shop the purchase was made in (for `BROKERED` order type)
+    - Order item URL or content
 - Context information necessary for the continuation and completion of the process
   - Channel type (`ONLINE`)
   - Channel data
@@ -282,6 +284,7 @@ Use `/financing/v3/applications` resource with properly filled request that cont
 If the request was successfully processed, partner receives HTTP status code 201 and `Application` object with at least following information in the response:
 - Application unique ID
 - Application status
+- Application workflow steps
 
 
 If the request contained `ApplicationRequest.financedSubject.order.number` and was **recognized as duplication**
@@ -332,47 +335,10 @@ Create a new *application*
         There was an error processing request - invalid financedSubject.type
 
     + Attributes (Errors)
-
-
-## Mark order as shipped [/financing/v3/applications/{applicationId}/orders/ship]
-After the customer's contract is approved and signed, the partner is notified that all preparations are complete, enabling the transfer of goods to the customer. The initial step involves utilizing the *Mark Order as Shipped* method, signifying that the order has been dispatched to the customer.
-
-Upon confirmation with the customer, the order's price is remitted to the partner.
-
-Available for:
-| Application status | Order status |
-| ---                | ---          |
-| `CONFIRMED`        | `TO_SHIP`    |
-| `CONFIRMED`        | `SHIPPED` (in case partner tries to ship already shipped *order*, nothing changes)    |
-
-If the request was successfully processed, HTTP status code 204 is returned.
-
-  In other cases, you receive one of the following errors:
-  | Status code | Code                  | Explanation                                                                      |
-  | ---         | ---                   | ---                                                                              |
-  | 400         | INVALID_REQUEST       | Request was not well-formatted (malformed request syntax, size too large, etc.)  |
-  | 404         | OBJECT_NOT_FOUND      | The requested resource could not be found                                        |
-  | 422         | NOT_SUPPORTED         | Resource has not supported status                                                |
-  | 422         | UNPROCESSABLE         | The request was well-formed but was unable to be followed due to semantic errors |
-  | 500         | INTERNAL_SERVER_ERROR | Unexpected condition was encountered and no more specific message is suitable    |
-
-+ Parameters
-    + applicationId (string, required, `123e4567-e89b-12d3-a456-426655440000`)
-
-
-### Mark order as shipped [PUT]
-When the whole *order* was shipped to the customer, partner use `/financing/v3/applications/{applicationId}/orders/ship` resource where `{applicationId}` is the *application* ID received in the response of `/financing/v3/applications` after its creation.
-
-+ Response 204
-
-+ Response 422(application/json;charset=UTF-8)
-
-        Status change can not be processed
-
-    + Attributes (Errors)
+    
 
 ## Mark order as delivered [/financing/v3/applications/{applicationId}/orders/deliver]
-The alternative approach for processing order delivery involves employing the *Mark Order as Delivered* method. This method confirms that the order has been not only shipped but also successfully delivered to the customer.
+This method confirms that the order has been not only shipped but also successfully delivered to the customer.
 
 The partner receives the order's payment within a few days after the order is delivered.
 
@@ -440,7 +406,7 @@ If the request was successfully processed, HTTP status code 200 is returned.
 Partner use `/financing/v3/applications/{applicationId}/cancel` resource where `{applicationId}` is the *application* ID received in the response of `/financing/v3/applications` after its creation.
 
 + Request Example_VALID_REQUEST (application/json;charset=UTF-8)
-    + Attributes (CancelApplicationRequest)
+    + Attributes (CancelApplicationRequest, required)
 
 + Response 200
 
@@ -604,18 +570,20 @@ Notify partner about changes in application.
 + `addresses` (array[Address], fixed-type, optional) - Addresses.
 + `identificationNumber`: `890619/5723` (string, optional) - Customer's identification number (actually birth number). SHOULD be valid according to the legislation currently in effect. Customer MUST be at least 18 years old.
 + `ipAddress`: `172.10.10.1` (string, optional) - IPv4 or IPv6 address of a customer.
-+ `fingerprintComponents` (KeyValue, optional) - Fingerprints components.
++ `fingerprintComponents` (array[KeyValue], optional) - Fingerprints components.
 
 ## Address(object)
-+ `city`: `Prague` (string, optional) - City. String values longer than 100 characters will be shortened to 100 characters.
-+ `streetAddress`: `Letenská` (string, optional) - Street/city part. String values longer than 100 characters will be shortened to 100 characters.
-+ `streetNumber`: `22` (string, optional) - Street number. String values longer than 50 characters will be shortened to 50 characters.
-+ `zip`: `140 00` (string, optional) - Postal code. String values longer than 10 characters will be shortened to 10 characters.
-+ `flags` (array[AddressFlag], fixed-type,  optional) - Types of the address.
++ `city`: `Prague` (string, required) - City. String values longer than 40 characters will be shortened to 40 characters.
++ `streetAddress`: `Letenská` (string, required) - Street/city part. String values longer than 50 characters will be shortened to 50 characters.
++ `streetNumber`: `22` (string, required) - Street number. String values longer than 10 characters will be shortened to 10 characters.
++ `zip`: `140 00` (string, required) - Postal code. String values longer than 10 characters will be shortened to 10 characters.
++ `flags` (array[AddressFlag], fixed-type,  required) - Types of the address.
++ `country`: `Czech Republic` (string, optional) - Country. String values longer than 30 characters will be shortened to 30 characters.
 
 ## AddressFlag(enum)
 + `PERMANENT` - Permanent residential address
 + `CONTACT` - Contact address
++ `DELIVERY` - Delivery address
 
 ## ApplicationContact(object)
 + type (enum, required) - Contact type
@@ -636,14 +604,15 @@ Notify partner about changes in application.
 ## Company (object)
 + `businessName`: `Planeta s.r.o.` (string, optional) - Name of business company.
 + `addresses` (array[Address], fixed-type, optional) - Addresses.
++ `contacts` (array[ApplicationContact], optional) - Contacts of company.
 + `businessIdentificationNumber`: `123456854` (string, optional) - Company's identification number (known as IČO).
 + `ipAddress`: `172.10.10.1` (string, optional) - IPv4 or IPv6 address of a customer.
-+ `fingerprintComponents` (KeyValue, optional) - Fingerprints components.
++ `fingerprintComponents` (array[KeyValue], optional) - Fingerprints components.
 
 ## FinancedSubjectBase(object)
 + `type` (enum, required) - Financed subject type
   + `ORDER`
-+ order (OrderBase, required) - Information about customer's purchase of goods. REQUIRED for ORDER type of Financed subject
++ order (OrderBase, optional) - Information about customer's purchase of goods. REQUIRED for ORDER type of Financed subject
 
 ##  OrderBase(object)
 + type (enum, required) - Type of order.
@@ -652,10 +621,11 @@ Notify partner about changes in application.
 + specificSymbol: `1122334455` (string,  optional) - Specific symbol (internal for partner) for reconciliation payment. MUST NOT be longer than 10 characters
 + variableSymbol: `1234567` (string,  optional) - Variable symbol (internal for e-shop) for reconciliation payment. MUST NOT be longer than 10 characters. If empty, `order.number` is used instead. If not provided or not usable (e.g. `order.number` contains only letters) Home Credit internal identifier is used.
 + totalPrice (Amount, required) - Total order amount, including VAT
-+ financings (array[OrderFinancing], fixed-type, required) - Information about form of financing ORDER application. MUST be provided with at least `type` of `financing` for orders with only single financing. MUST be provided with at least `amount` and `type` for particular `financing` parts for orders with multiple financings (typically more complicated product, for example Iphone purchase with future buyback).
++ financings (array[OrderFinancing], fixed-type, required) - Information about form of financing ORDER application. MUST be provided with at least `type` of `financing` for orders with only single financing.
 + carLoan (CarLoanOrder, optional) - MUST be provided for `order.type` = `CAR_LOAN`
 
 ## CarLoanOrder (object)
++ `items` (array[OrderItem], fixed-type, optional) - Order items
 
 
 ## StandardOrder (object)
@@ -685,34 +655,17 @@ Notify partner about changes in application.
 + items (array[OrderItem], fixed-type, optional) - Order items
 
 ##  OrderItem(object)
-+ code: `EXC4677-1a` (string, optional) - Internal code for item (internal to e-shop). Used to better identify the item for future changes. Maximum 100 characters
-+ ean: `888462064002` (string, optional) - EAN code. Maximum 32 characters
-+ name: `iPhone 6s 32GB SpaceGray` (string, required) - Item name. String values longer than 60 characters will be shortened to 60 characters.
-+ quantity: 1 (number, optional) - Item quantity. If empty, considered as 1.
-+ type (enum, optional) - Item type
-    + `PHYSICAL`
-    + `DISCOUNT`
-    + `SHIPPING_FEE`
-    + `SALES_TAX`
-    + `DIGITAL`
-    + `GIFT_CARD`
-    + `STORE_CREDIT`
-    + `FEE`
-    + `INSURANCE`
-+ totalPrice (Amount, required) - Total price for all pieces (including VAT)
-+ unitPrice (Amount, optional) - Price per one piece. If empty, automatically considered that `unitPrice` is `totalPrice` / `quantity`.
-+ producer: 'Apple' (string, optional) - MUST NOT be longer than 50 characters.
++ name: `Škoda Octavia 3.2 TDI` (string, optional) - Item name. String values longer than 60 characters will be shortened to 60 characters.
 + image (File, optional) - Item image
 
 ## OrderFinancing(object)
 + type (enum, required) - Financing type
     + `CONSUMER_LOAN`
-+ amount (Amount, optional) - Financed amount for financing. MAY be provided for orders with only single financing. MUST be provided for orders with multiple financings.
-+ consumerLoan (SettingsConsumerLoan,  required) - Settings for CONSUMER_LOAN Financing type. REQUIRED for CONSUMER_LOAN financing type.
++ consumerLoan (SettingsConsumerLoan, optional) - MUST be provided for `financings.type` = `CONSUMER_LOAN`
+
 
 ## SettingsConsumerLoan(object)
-+ preferredMonths: 6 (number,  optional) - Preferred number of installments (in months)
-+ preferredInstallment (Amount,  optional) - Preferred down payment amount (amount should be rounded to hundreds CZK/ 5 EUR)
++ calculationId (string,  optional) - ID calculation based on the client's chosen method of financing the purchase
 
 ## SettingsInstalment(object)
 + preferredMonths: 6 (number,  optional) - Preferred number of installments (in months)
@@ -731,7 +684,7 @@ Notify partner about changes in application.
 ## OriginationChannel(object)
 + `type` (enum, required) - Type of origination channel
     + `ONLINE` - Customer handles the whole application himself online (for example customer's purchase in eshop)
-+ `online` (MerchantURLs, required) - Collection of partner's URLs used for redirection of a customer back to a partner website or as a notification endpoint. REQUIRED for ONLINE channel type
++ `online` (MerchantURLs, optional) - Collection of partner's URLs used for redirection of a customer back to a partner website or as a notification endpoint. REQUIRED for ONLINE channel type
 
 ## MerchantURLs(object)
 + `approvedRedirect`: `https://www.partnereshop.cz` (string, optional) - URL of the partner used for redirection of the customer back to partner website after the application approval. MUST be a valid URL according to [RFC 3986](https://tools.ietf.org/html/rfc3986). URL SHOULD contain scheme (for example `https://`) otherwise some browsers will not redirect customer correctly.  MUST NOT be longer than 1000 characters.
@@ -1001,9 +954,9 @@ API information
 + `vatRate`: 15 (number, required) - VAT rate as natural number (15 represents 15% rate)
 
 ## File (object)
-+ `filename`: `iphone6s.jpg` (string, required) - File name.
++ `filename`: `auticko.jpg` (string, required) - File name.
 + One Of
-    + `url`: `https://i.cdn.nrholding.net/32523771/2000/2000/iphone6s.jpg` (string, required) - File URL (full).
+    + `url`: `https://i.cdn.nrholding.net/32523771/2000/2000/auticko.jpg` (string, required) - File URL (full).
     + `content`: `RmlsZSBjb250ZW50cy4gwq9cXyjjg4QpXy/Crw==` (string, required) - File content (Base64 encoded, maximum size of encoded string is 500kB)
 
 ## AmountOld (object)
