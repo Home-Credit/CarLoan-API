@@ -625,6 +625,7 @@ Notify partner about changes in application.
 + carLoan (CarLoanOrder, optional) - MUST be provided for `order.type` = `CAR_LOAN`
 
 ## CarLoanOrder (object)
++ `reservationDate`: `2017-07-15T00:00:00+02:00` (string,  optional) - Date and time until order is reserved. Until `reservationDate` HCO will try to notify partner with Application notification about approval or rejection.After this date and time, e-shop does not guarantee items availability (if application processing is longer, it may endanger order fullfillment).
 + `items` (array[OrderItem], fixed-type, optional) - Order items
 
 
@@ -655,7 +656,13 @@ Notify partner about changes in application.
 + items (array[OrderItem], fixed-type, optional) - Order items
 
 ##  OrderItem(object)
-+ name: `Škoda Octavia 3.2 TDI` (string, optional) - Item name. String values longer than 60 characters will be shortened to 60 characters.
++ code: `EXC4677-1a` (string, optional) - Internal code for item (internal to e-shop). Used to better identify the item for future changes. Maximum 100 characters
++ ean: `888462064002` (string, optional) - EAN code. Maximum 32 characters
++ name: `iPhone 6s 32GB SpaceGray` (string, required) - Item name. String values longer than 60 characters will be shortened to 60 characters.
++ quantity: 1 (number, optional) - Item quantity. If empty, considered as 1.
++ totalPrice (Amount, required) - Total price for all pieces (including VAT)
++ unitPrice (Amount, optional) - Price per one piece. If empty, automatically considered that `unitPrice` is `totalPrice` / `quantity`.
++ producer: 'Honda' (string, optional) - MUST NOT be longer than 50 characters.
 + image (File, optional) - Item image
 
 ## OrderFinancing(object)
@@ -665,7 +672,7 @@ Notify partner about changes in application.
 
 
 ## SettingsConsumerLoan(object)
-+ calculationId (string,  optional) - ID calculation based on the client's chosen method of financing the purchase
++ applicationOffer (string,  required) - Application ID with calculation
 
 ## SettingsInstalment(object)
 + preferredMonths: 6 (number,  optional) - Preferred number of installments (in months)
