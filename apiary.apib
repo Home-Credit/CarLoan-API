@@ -313,22 +313,12 @@ Create a new *application*
 
     + Attributes (ApplicationBase)
 
-
-+ Request Example_REPEATED_VALID_REQUEST (application/json;charset=UTF-8)
-    + Attributes (ApplicationRequest)
-
 + Response 200(application/json;charset=UTF-8)
 
         Application was created in the past (nothing changed)
 
     + Attributes (ApplicationBase)
 
-
-+ Request Example_BAD_REQUEST (application/json;charset=UTF-8)
-    + Attributes (ApplicationRequest)
-        + `financedSubject` (FinancedSubjectBase)
-            + `type`: `INVALID_TYPE` (enum, required) - Type of financed subject
-                + `ORDER`
 
 + Response 400(application/json;charset=UTF-8)
 
