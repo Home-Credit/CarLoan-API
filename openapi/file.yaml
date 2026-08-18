@@ -568,20 +568,23 @@ paths:
                       properties:
                         firstName:
                           type: string
-                          description: Customer first (given) name. Name SHOULD follow regular expression
+                          description:
+                            Customer first (given) name. Name SHOULD follow regular expression
                             `^[A-ZÁ-Ž]'?[- \u00A0a-zA-Zá-žÁ-Ž]*[a-zA-Zá-žÁ-Ž]$`,
                             SHOULD be 2 to 30 characters long and characters
                             SHOULD be in the `ISO 8859-2` character set.
                         lastName:
                           type: string
-                          description: Customer last (family) name. Name SHOULD follow regular expression
+                          description:
+                            Customer last (family) name. Name SHOULD follow regular expression
                             `^[A-ZÁ-Ž]'?[-
                             \u00A0a-zA-Zá-žÁ-Ž]*[a-zA-Zá-žÁ-Ž]$`,SHOULD be 2 to
                             30 characters long and characters SHOULD be in the
                             `ISO 8859-2` character set.
                         fullName:
                           type: string
-                          description: Customer full name, including academical degrees and salutation.
+                          description:
+                            Customer full name, including academical degrees and salutation.
                             Attribute `fullName` is parsed (and eventually
                             shortened) into `firstName` and `lastName`;
                             `fullName` is never returned in response. In case
@@ -594,7 +597,7 @@ paths:
                           items:
                             type: object
                             properties:
-                              type:
+                              contactType:
                                 type: string
                                 enum:
                                   - EMAIL
@@ -606,7 +609,8 @@ paths:
                                 properties:
                                   value:
                                     type: string
-                                    description: E-mail address of customer. MUST be valid email according to [RFC
+                                    description:
+                                      E-mail address of customer. MUST be valid email according to [RFC
                                       2822](https://tools.ietf.org/html/rfc2822).
                                 required:
                                   - value
@@ -619,14 +623,16 @@ paths:
                                     description: MUST be valid countryCode.
                                   value:
                                     type: string
-                                    description: Mobile phone number SHOULD be 9 characters long. The mobile phone
+                                    description:
+                                      Mobile phone number SHOULD be 9 characters long. The mobile phone
                                       number itself without country code SHOULD
                                       begin with digit `6` or `7` (for CZ) or
                                       with `9x` where `x` is different from `6`
                                       (for SK).
                                 required:
                                   - value
-                                description: Number of customer's mobile phone. REQUIRED for `MOBILE_PHONE`
+                                description:
+                                  Number of customer's mobile phone. REQUIRED for `MOBILE_PHONE`
                                   Contact type.
                               phone:
                                 type: object
@@ -636,14 +642,16 @@ paths:
                                     description: MUST be valid countryCode.
                                   value:
                                     type: string
-                                    description: Mobile phone number SHOULD be 9 characters long. The mobile phone
+                                    description:
+                                      Mobile phone number SHOULD be 9 characters long. The mobile phone
                                       number itself without country code SHOULD
                                       begin with digit `6` or `7` (for CZ) or
                                       with `9x` where `x` is different from `6`
                                       (for SK).
                                 required:
                                   - value
-                                description: Number of customer's landline phone. REQUIRED for `PHONE` Contact
+                                description:
+                                  Number of customer's landline phone. REQUIRED for `PHONE` Contact
                                   type.
                             required:
                               - type
@@ -655,19 +663,23 @@ paths:
                             properties:
                               city:
                                 type: string
-                                description: City. String values longer than 40 characters will be shortened to
+                                description:
+                                  City. String values longer than 40 characters will be shortened to
                                   40 characters.
                               streetAddress:
                                 type: string
-                                description: Street/city part. String values longer than 50 characters will be
+                                description:
+                                  Street/city part. String values longer than 50 characters will be
                                   shortened to 50 characters.
                               streetNumber:
                                 type: string
-                                description: Street number. String values longer than 10 characters will be
+                                description:
+                                  Street number. String values longer than 10 characters will be
                                   shortened to 10 characters.
                               zip:
                                 type: string
-                                description: Postal code. String values longer than 10 characters will be
+                                description:
+                                  Postal code. String values longer than 10 characters will be
                                   shortened to 10 characters.
                               flags:
                                 type: array
@@ -680,7 +692,8 @@ paths:
                                 description: Types of the address.
                               country:
                                 type: string
-                                description: Country. String values longer than 30 characters will be shortened
+                                description:
+                                  Country. String values longer than 30 characters will be shortened
                                   to 30 characters.
                             required:
                               - city
@@ -691,7 +704,8 @@ paths:
                           description: Addresses.
                         identificationNumber:
                           type: string
-                          description: Customer's identification number (actually birth number). SHOULD be
+                          description:
+                            Customer's identification number (actually birth number). SHOULD be
                             valid according to the legislation currently in
                             effect. Customer MUST be at least 18 years old.
                         ipAddress:
@@ -712,7 +726,8 @@ paths:
                               - key
                               - value
                           description: Fingerprints components.
-                      description: REQUIRED for `PERSON` Customer type. If known, customer data MAY be
+                      description:
+                        REQUIRED for `PERSON` Customer type. If known, customer data MAY be
                         included for a smoother approval process for defined
                         type of customer
                     entrepreneur:
@@ -728,19 +743,23 @@ paths:
                             properties:
                               city:
                                 type: string
-                                description: City. String values longer than 40 characters will be shortened to
+                                description:
+                                  City. String values longer than 40 characters will be shortened to
                                   40 characters.
                               streetAddress:
                                 type: string
-                                description: Street/city part. String values longer than 50 characters will be
+                                description:
+                                  Street/city part. String values longer than 50 characters will be
                                   shortened to 50 characters.
                               streetNumber:
                                 type: string
-                                description: Street number. String values longer than 10 characters will be
+                                description:
+                                  Street number. String values longer than 10 characters will be
                                   shortened to 10 characters.
                               zip:
                                 type: string
-                                description: Postal code. String values longer than 10 characters will be
+                                description:
+                                  Postal code. String values longer than 10 characters will be
                                   shortened to 10 characters.
                               flags:
                                 type: array
@@ -753,7 +772,8 @@ paths:
                                 description: Types of the address.
                               country:
                                 type: string
-                                description: Country. String values longer than 30 characters will be shortened
+                                description:
+                                  Country. String values longer than 30 characters will be shortened
                                   to 30 characters.
                             required:
                               - city
@@ -767,7 +787,7 @@ paths:
                           items:
                             type: object
                             properties:
-                              type:
+                              contactType:
                                 type: string
                                 enum:
                                   - EMAIL
@@ -779,7 +799,8 @@ paths:
                                 properties:
                                   value:
                                     type: string
-                                    description: E-mail address of customer. MUST be valid email according to [RFC
+                                    description:
+                                      E-mail address of customer. MUST be valid email according to [RFC
                                       2822](https://tools.ietf.org/html/rfc2822).
                                 required:
                                   - value
@@ -792,14 +813,16 @@ paths:
                                     description: MUST be valid countryCode.
                                   value:
                                     type: string
-                                    description: Mobile phone number SHOULD be 9 characters long. The mobile phone
+                                    description:
+                                      Mobile phone number SHOULD be 9 characters long. The mobile phone
                                       number itself without country code SHOULD
                                       begin with digit `6` or `7` (for CZ) or
                                       with `9x` where `x` is different from `6`
                                       (for SK).
                                 required:
                                   - value
-                                description: Number of customer's mobile phone. REQUIRED for `MOBILE_PHONE`
+                                description:
+                                  Number of customer's mobile phone. REQUIRED for `MOBILE_PHONE`
                                   Contact type.
                               phone:
                                 type: object
@@ -809,14 +832,16 @@ paths:
                                     description: MUST be valid countryCode.
                                   value:
                                     type: string
-                                    description: Mobile phone number SHOULD be 9 characters long. The mobile phone
+                                    description:
+                                      Mobile phone number SHOULD be 9 characters long. The mobile phone
                                       number itself without country code SHOULD
                                       begin with digit `6` or `7` (for CZ) or
                                       with `9x` where `x` is different from `6`
                                       (for SK).
                                 required:
                                   - value
-                                description: Number of customer's landline phone. REQUIRED for `PHONE` Contact
+                                description:
+                                  Number of customer's landline phone. REQUIRED for `PHONE` Contact
                                   type.
                             required:
                               - type
@@ -842,7 +867,8 @@ paths:
                               - key
                               - value
                           description: Fingerprints components.
-                      description: REQUIRED for `ENTREPRENEUR` Customer type. If known, customer data
+                      description:
+                        REQUIRED for `ENTREPRENEUR` Customer type. If known, customer data
                         MAY be included for a smoother approval process for
                         defined type of customer
                     legalEntity:
@@ -858,19 +884,23 @@ paths:
                             properties:
                               city:
                                 type: string
-                                description: City. String values longer than 40 characters will be shortened to
+                                description:
+                                  City. String values longer than 40 characters will be shortened to
                                   40 characters.
                               streetAddress:
                                 type: string
-                                description: Street/city part. String values longer than 50 characters will be
+                                description:
+                                  Street/city part. String values longer than 50 characters will be
                                   shortened to 50 characters.
                               streetNumber:
                                 type: string
-                                description: Street number. String values longer than 10 characters will be
+                                description:
+                                  Street number. String values longer than 10 characters will be
                                   shortened to 10 characters.
                               zip:
                                 type: string
-                                description: Postal code. String values longer than 10 characters will be
+                                description:
+                                  Postal code. String values longer than 10 characters will be
                                   shortened to 10 characters.
                               flags:
                                 type: array
@@ -883,7 +913,8 @@ paths:
                                 description: Types of the address.
                               country:
                                 type: string
-                                description: Country. String values longer than 30 characters will be shortened
+                                description:
+                                  Country. String values longer than 30 characters will be shortened
                                   to 30 characters.
                             required:
                               - city
@@ -897,7 +928,7 @@ paths:
                           items:
                             type: object
                             properties:
-                              type:
+                              contactType:
                                 type: string
                                 enum:
                                   - EMAIL
@@ -909,7 +940,8 @@ paths:
                                 properties:
                                   value:
                                     type: string
-                                    description: E-mail address of customer. MUST be valid email according to [RFC
+                                    description:
+                                      E-mail address of customer. MUST be valid email according to [RFC
                                       2822](https://tools.ietf.org/html/rfc2822).
                                 required:
                                   - value
@@ -922,14 +954,16 @@ paths:
                                     description: MUST be valid countryCode.
                                   value:
                                     type: string
-                                    description: Mobile phone number SHOULD be 9 characters long. The mobile phone
+                                    description:
+                                      Mobile phone number SHOULD be 9 characters long. The mobile phone
                                       number itself without country code SHOULD
                                       begin with digit `6` or `7` (for CZ) or
                                       with `9x` where `x` is different from `6`
                                       (for SK).
                                 required:
                                   - value
-                                description: Number of customer's mobile phone. REQUIRED for `MOBILE_PHONE`
+                                description:
+                                  Number of customer's mobile phone. REQUIRED for `MOBILE_PHONE`
                                   Contact type.
                               phone:
                                 type: object
@@ -939,14 +973,16 @@ paths:
                                     description: MUST be valid countryCode.
                                   value:
                                     type: string
-                                    description: Mobile phone number SHOULD be 9 characters long. The mobile phone
+                                    description:
+                                      Mobile phone number SHOULD be 9 characters long. The mobile phone
                                       number itself without country code SHOULD
                                       begin with digit `6` or `7` (for CZ) or
                                       with `9x` where `x` is different from `6`
                                       (for SK).
                                 required:
                                   - value
-                                description: Number of customer's landline phone. REQUIRED for `PHONE` Contact
+                                description:
+                                  Number of customer's landline phone. REQUIRED for `PHONE` Contact
                                   type.
                             required:
                               - type
@@ -972,7 +1008,8 @@ paths:
                               - key
                               - value
                           description: Fingerprints components.
-                      description: REQUIRED for `LEGAL_ENTITY` Customer type. If known, customer data
+                      description:
+                        REQUIRED for `LEGAL_ENTITY` Customer type. If known, customer data
                         MAY be included for a smoother approval process for
                         defined type of customer
                   required:
@@ -994,7 +1031,8 @@ paths:
                           properties:
                             approvedRedirect:
                               type: string
-                              description: URL of the partner used for redirection of the customer back to
+                              description:
+                                URL of the partner used for redirection of the customer back to
                                 partner website after the application approval.
                                 MUST be a valid URL according to [RFC
                                 3986](https://tools.ietf.org/html/rfc3986). URL
@@ -1004,7 +1042,8 @@ paths:
                                 1000 characters.
                             rejectedRedirect:
                               type: string
-                              description: URL of the partner used for redirection of the customer back to
+                              description:
+                                URL of the partner used for redirection of the customer back to
                                 partner website after application rejection.
                                 MUST be valid URL according to [RFC
                                 3986](https://tools.ietf.org/html/rfc3986). URL
@@ -1014,7 +1053,8 @@ paths:
                                 characters.
                             notificationEndpoint:
                               type: string
-                              description: URL of the partner used as a notification endpoint for notifying
+                              description:
+                                URL of the partner used as a notification endpoint for notifying
                                 partner about important updates in the
                                 application process (approval, rejection,
                                 cancellation, etc.). MUST be valid URL according
@@ -1022,7 +1062,8 @@ paths:
                                 3986](https://tools.ietf.org/html/rfc3986). URL
                                 SHOULD contain scheme (for example `https://`).
                                 MUST NOT be longer than 1000 characters.
-                          description: Collection of partner's URLs used for redirection of a customer
+                          description:
+                            Collection of partner's URLs used for redirection of a customer
                             back to a partner website or as a notification
                             endpoint. REQUIRED for ONLINE channel type
                       required:
@@ -1032,14 +1073,16 @@ paths:
                       type: array
                       items:
                         type: string
-                      description: Array of all precheck ids related to this application. If partner
+                      description:
+                        Array of all precheck ids related to this application. If partner
                         has run Precheck operation with this Customer's data he
                         SHOULD provide precheckId into this attribute. SHOULD be
                         valid precheckId. See Precheck operations and their's
                         response.
                     sourceId:
                       type: string
-                      description: Identifier of source or campaign of lead origin. Partner SHOULD
+                      description:
+                        Identifier of source or campaign of lead origin. Partner SHOULD
                         provide valid `sourceId`
                     extendedData:
                       type: array
@@ -1055,13 +1098,15 @@ paths:
                         required:
                           - key
                           - value
-                      description: "Additional data about application origin. List of supported `keys`
+                      description:
+                        "Additional data about application origin. List of supported `keys`
                         for `extendedData`: `utm_source`, `utm_medium`,
                         `utm_campaign`, `utm_term`, `utm_content`, `gclid`,
                         `fbclid`, `url`."
                   required:
                     - channel
-                  description: Additional information about the context of financing application
+                  description:
+                    Additional information about the context of financing application
                     origination (e.g. redirect URL back to partner site)
                 financedSubject:
                   type: object
@@ -1081,17 +1126,20 @@ paths:
                           description: Type of order.
                         number:
                           type: string
-                          description: Identifier, specified by the partner (e-shop, POS shop,
+                          description:
+                            Identifier, specified by the partner (e-shop, POS shop,
                             inetmediary). MAY be provided for easier
                             identification of application on partner's side.
                             MUST NOT be longer than 100 characters.
                         specificSymbol:
                           type: string
-                          description: Specific symbol (internal for partner) for reconciliation payment.
+                          description:
+                            Specific symbol (internal for partner) for reconciliation payment.
                             MUST NOT be longer than 10 characters
                         variableSymbol:
                           type: string
-                          description: Variable symbol (internal for e-shop) for reconciliation payment.
+                          description:
+                            Variable symbol (internal for e-shop) for reconciliation payment.
                             MUST NOT be longer than 10 characters. If empty,
                             `order.number` is used instead. If not provided or
                             not usable (e.g. `order.number` contains only
@@ -1101,11 +1149,13 @@ paths:
                           properties:
                             value:
                               type: number
-                              description: Amount in minor units (13300 represents 133) [ISO
+                              description:
+                                Amount in minor units (13300 represents 133) [ISO
                                 4217](https://en.wikipedia.org/wiki/ISO_4217)
                             currency:
                               type: string
-                              description: Amount currency [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).
+                              description:
+                                Amount currency [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).
                                 Only local currency is allowed (CZK in Czech
                                 Republic and EUR in Slovakia).
                           required:
@@ -1133,7 +1183,8 @@ paths:
                                 description: MUST be provided for `financings.type` = `CONSUMER_LOAN`
                             required:
                               - type
-                          description: Information about form of financing ORDER application. MUST be
+                          description:
+                            Information about form of financing ORDER application. MUST be
                             provided with at least `type` of `financing` for
                             orders with only single financing.
                         carLoan:
@@ -1141,7 +1192,8 @@ paths:
                           properties:
                             reservationDate:
                               type: string
-                              description: Date and time until order is reserved. Until `reservationDate` HCO
+                              description:
+                                Date and time until order is reserved. Until `reservationDate` HCO
                                 will try to notify partner with Application
                                 notification about approval or rejection.After
                                 this date and time, e-shop does not guarantee
@@ -1154,7 +1206,8 @@ paths:
                                 properties:
                                   code:
                                     type: string
-                                    description: Internal code for item (internal to e-shop). Used to better
+                                    description:
+                                      Internal code for item (internal to e-shop). Used to better
                                       identify the item for future changes.
                                       Maximum 100 characters
                                   ean:
@@ -1162,7 +1215,8 @@ paths:
                                     description: EAN code. Maximum 32 characters
                                   name:
                                     type: string
-                                    description: Item name. String values longer than 60 characters will be
+                                    description:
+                                      Item name. String values longer than 60 characters will be
                                       shortened to 60 characters.
                                   quantity:
                                     type: number
@@ -1172,11 +1226,13 @@ paths:
                                     properties:
                                       value:
                                         type: number
-                                        description: Amount in minor units (13300 represents 133) [ISO
+                                        description:
+                                          Amount in minor units (13300 represents 133) [ISO
                                           4217](https://en.wikipedia.org/wiki/ISO_4217)
                                       currency:
                                         type: string
-                                        description: Amount currency [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).
+                                        description:
+                                          Amount currency [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).
                                           Only local currency is allowed (CZK in
                                           Czech Republic and EUR in Slovakia).
                                     required:
@@ -1188,17 +1244,20 @@ paths:
                                     properties:
                                       value:
                                         type: number
-                                        description: Amount in minor units (13300 represents 133) [ISO
+                                        description:
+                                          Amount in minor units (13300 represents 133) [ISO
                                           4217](https://en.wikipedia.org/wiki/ISO_4217)
                                       currency:
                                         type: string
-                                        description: Amount currency [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).
+                                        description:
+                                          Amount currency [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).
                                           Only local currency is allowed (CZK in
                                           Czech Republic and EUR in Slovakia).
                                     required:
                                       - value
                                       - currency
-                                    description: Price per one piece. If empty, automatically considered that
+                                    description:
+                                      Price per one piece. If empty, automatically considered that
                                       `unitPrice` is `totalPrice` / `quantity`.
                                   producer:
                                     type: string
@@ -1221,7 +1280,8 @@ paths:
                                       - properties:
                                           content:
                                             type: string
-                                            description: File content (Base64 encoded, maximum size of encoded string is
+                                            description:
+                                              File content (Base64 encoded, maximum size of encoded string is
                                               500kB)
                                         required:
                                           - content
@@ -1235,11 +1295,13 @@ paths:
                         - type
                         - totalPrice
                         - financings
-                      description: Information about customer's purchase of goods. REQUIRED for ORDER
+                      description:
+                        Information about customer's purchase of goods. REQUIRED for ORDER
                         type of Financed subject
                   required:
                     - type
-                  description: Subject of financing (for example IPhone purchase, loan for 20 000
+                  description:
+                    Subject of financing (for example IPhone purchase, loan for 20 000
                     CZK ...)
               required:
                 - customer
@@ -1253,7 +1315,7 @@ paths:
                     lastName: Newborn
                     fullName: Ing. John Newborn, Csc.
                     contacts:
-                      - type: EMAIL
+                      - contactType: EMAIL
                         email:
                           value: john.newborn@country.com
                         mobile:
@@ -1286,7 +1348,7 @@ paths:
                           - PERMANENT
                         country: Czech Republic
                     contacts:
-                      - type: EMAIL
+                      - contactType: EMAIL
                         email:
                           value: john.newborn@country.com
                         mobile:
@@ -1311,7 +1373,7 @@ paths:
                           - PERMANENT
                         country: Czech Republic
                     contacts:
-                      - type: EMAIL
+                      - contactType: EMAIL
                         email:
                           value: john.newborn@country.com
                         mobile:
@@ -1528,7 +1590,8 @@ paths:
                     - APPLICATION_CANCELLED_UNFINISHED
                     - APPLICATION_CANCELLED_BY_ESHOP_RULES
                     - APPLICATION_CANCELLED_OTHER
-                  description: Reason of cancellation. Considered as   APPLICATION_CANCELLED_OTHER
+                  description:
+                    Reason of cancellation. Considered as   APPLICATION_CANCELLED_OTHER
                     if not set.
                 customReason:
                   type: string
@@ -1651,7 +1714,8 @@ paths:
       parameters:
         - name: timeout
           in: query
-          description: Optional timeout (in miliseconds) for completition of the request
+          description:
+            Optional timeout (in miliseconds) for completition of the request
             (504 is returned when not fulfilled). If empty, considered 2000.
           required: false
           example: "2000"
@@ -1760,11 +1824,13 @@ paths:
                       properties:
                         value:
                           type: number
-                          description: Amount in minor units (150000 represents 1 500) [ISO
+                          description:
+                            Amount in minor units (150000 represents 1 500) [ISO
                             4217](https://en.wikipedia.org/wiki/ISO_4217)
                         currency:
                           type: string
-                          description: Amount currency [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).
+                          description:
+                            Amount currency [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).
                             Only local currency is allowed (CZK in Czech
                             Republic and EUR in Slovakia).
                       required:
@@ -1930,21 +1996,24 @@ components:
         firstName:
           type: string
           example: John
-          description: Customer first (given) name. Name SHOULD follow regular expression
+          description:
+            Customer first (given) name. Name SHOULD follow regular expression
             `^[A-ZÁ-Ž]'?[- \u00A0a-zA-Zá-žÁ-Ž]*[a-zA-Zá-žÁ-Ž]$`, SHOULD be 2 to
             30 characters long and characters SHOULD be in the `ISO 8859-2`
             character set.
         lastName:
           type: string
           example: Newborn
-          description: Customer last (family) name. Name SHOULD follow regular expression
+          description:
+            Customer last (family) name. Name SHOULD follow regular expression
             `^[A-ZÁ-Ž]'?[- \u00A0a-zA-Zá-žÁ-Ž]*[a-zA-Zá-žÁ-Ž]$`,SHOULD be 2 to
             30 characters long and characters SHOULD be in the `ISO 8859-2`
             character set.
         fullName:
           type: string
           example: Ing. John Newborn, Csc.
-          description: Customer full name, including academical degrees and salutation.
+          description:
+            Customer full name, including academical degrees and salutation.
             Attribute `fullName` is parsed (and eventually shortened) into
             `firstName` and `lastName`; `fullName` is never returned in
             response. In case all three attributes are provided, `fullName` is
@@ -1963,7 +2032,8 @@ components:
         identificationNumber:
           type: string
           example: 890619/5723
-          description: Customer's identification number (actually birth number). SHOULD be
+          description:
+            Customer's identification number (actually birth number). SHOULD be
             valid according to the legislation currently in effect. Customer
             MUST be at least 18 years old.
         ipAddress:
@@ -1987,22 +2057,26 @@ components:
         city:
           type: string
           example: Prague
-          description: City. String values longer than 40 characters will be shortened to
+          description:
+            City. String values longer than 40 characters will be shortened to
             40 characters.
         streetAddress:
           type: string
           example: Letenská
-          description: Street/city part. String values longer than 50 characters will be
+          description:
+            Street/city part. String values longer than 50 characters will be
             shortened to 50 characters.
         streetNumber:
           type: string
           example: "22"
-          description: Street number. String values longer than 10 characters will be
+          description:
+            Street number. String values longer than 10 characters will be
             shortened to 10 characters.
         zip:
           type: string
           example: 140 00
-          description: Postal code. String values longer than 10 characters will be
+          description:
+            Postal code. String values longer than 10 characters will be
             shortened to 10 characters.
         flags:
           type: array
@@ -2012,7 +2086,8 @@ components:
         country:
           type: string
           example: Czech Republic
-          description: Country. String values longer than 30 characters will be shortened
+          description:
+            Country. String values longer than 30 characters will be shortened
             to 30 characters.
     AddressFlag:
       type: string
@@ -2046,7 +2121,8 @@ components:
         value:
           type: string
           example: john.newborn@country.com
-          description: E-mail address of customer. MUST be valid email according to [RFC
+          description:
+            E-mail address of customer. MUST be valid email according to [RFC
             2822](https://tools.ietf.org/html/rfc2822).
     Phone:
       type: object
@@ -2060,7 +2136,8 @@ components:
         value:
           type: string
           example: "777123456"
-          description: Mobile phone number SHOULD be 9 characters long. The mobile phone
+          description:
+            Mobile phone number SHOULD be 9 characters long. The mobile phone
             number itself without country code SHOULD begin with digit `6` or
             `7` (for CZ) or with `9x` where `x` is different from `6` (for SK).
     Company:
@@ -2127,12 +2204,14 @@ components:
         specificSymbol:
           type: string
           example: "1122334455"
-          description: Specific symbol (internal for partner) for reconciliation payment.
+          description:
+            Specific symbol (internal for partner) for reconciliation payment.
             MUST NOT be longer than 10 characters
         variableSymbol:
           type: string
           example: "1234567"
-          description: Variable symbol (internal for e-shop) for reconciliation payment.
+          description:
+            Variable symbol (internal for e-shop) for reconciliation payment.
             MUST NOT be longer than 10 characters. If empty, `order.number` is
             used instead. If not provided or not usable (e.g. `order.number`
             contains only letters) Home Credit internal identifier is used.
@@ -2142,7 +2221,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/OrderFinancing"
-          description: Information about form of financing ORDER application. MUST be
+          description:
+            Information about form of financing ORDER application. MUST be
             provided with at least `type` of `financing` for orders with only
             single financing.
         carLoan:
@@ -2153,7 +2233,8 @@ components:
         reservationDate:
           type: string
           example: 2017-07-15T00:00:00+02:00
-          description: Date and time until order is reserved. Until `reservationDate` HCO
+          description:
+            Date and time until order is reserved. Until `reservationDate` HCO
             will try to notify partner with Application notification about
             approval or rejection.After this date and time, e-shop does not
             guarantee items availability (if application processing is longer,
@@ -2179,7 +2260,8 @@ components:
         reservationDate:
           type: string
           example: 2017-07-15T00:00:00+02:00
-          description: Date and time until order is reserved. Until `reservationDate` HCO
+          description:
+            Date and time until order is reserved. Until `reservationDate` HCO
             will try to notify partner with Application notification about
             approval or rejection.After this date and time, e-shop does not
             guarantee items availability (if application processing is longer,
@@ -2207,7 +2289,8 @@ components:
         number:
           type: string
           example: "22222222"
-          description: Internal order number of the merchant (e-shop, POS shop), MAY be
+          description:
+            Internal order number of the merchant (e-shop, POS shop), MAY be
             provided for easier identification of application on partner's side,
             MUST NOT be longer than 100 characters.
         name:
@@ -2223,7 +2306,8 @@ components:
         url:
           type: string
           example: www.mall.cz
-          description: "`URL of the merchant's`web site (e-shop), MUST NOT be longer than
+          description:
+            "`URL of the merchant's`web site (e-shop), MUST NOT be longer than
             1000 characte`s, MUST be valid URL"
         deliveryType:
           type: string
@@ -2236,7 +2320,8 @@ components:
         reservationDate:
           type: string
           example: 2017-07-15T00:00:00+02:00
-          description: Date and time until order is reserved. Until `reservationDate` HCO
+          description:
+            Date and time until order is reserved. Until `reservationDate` HCO
             will try to notify partner with Application notification about
             approval or rejection.After this date and time, e-shop does not
             guarantee items availability (if application processing is longer,
@@ -2255,7 +2340,8 @@ components:
         code:
           type: string
           example: EXC4677-1a
-          description: Internal code for item (internal to e-shop). Used to better
+          description:
+            Internal code for item (internal to e-shop). Used to better
             identify the item for future changes. Maximum 100 characters
         ean:
           type: string
@@ -2264,7 +2350,8 @@ components:
         name:
           type: string
           example: iPhone 6s 32GB SpaceGray
-          description: Item name. String values longer than 60 characters will be
+          description:
+            Item name. String values longer than 60 characters will be
             shortened to 60 characters.
         quantity:
           type: number
@@ -2332,20 +2419,23 @@ components:
           type: array
           items:
             type: string
-          description: Array of all precheck ids related to this application. If partner
+          description:
+            Array of all precheck ids related to this application. If partner
             has run Precheck operation with this Customer's data he SHOULD
             provide precheckId into this attribute. SHOULD be valid precheckId.
             See Precheck operations and their's response.
         sourceId:
           type: string
           example: Cash_10_2020
-          description: Identifier of source or campaign of lead origin. Partner SHOULD
+          description:
+            Identifier of source or campaign of lead origin. Partner SHOULD
             provide valid `sourceId`
         extendedData:
           type: array
           items:
             $ref: "#/components/schemas/KeyValue"
-          description: "Additional data about application origin. List of supported `keys`
+          description:
+            "Additional data about application origin. List of supported `keys`
             for `extendedData`: `utm_source`, `utm_medium`, `utm_campaign`,
             `utm_term`, `utm_content`, `gclid`, `fbclid`, `url`."
     OriginationChannel:
@@ -2366,7 +2456,8 @@ components:
         approvedRedirect:
           type: string
           example: https://www.partnereshop.cz
-          description: URL of the partner used for redirection of the customer back to
+          description:
+            URL of the partner used for redirection of the customer back to
             partner website after the application approval. MUST be a valid URL
             according to [RFC 3986](https://tools.ietf.org/html/rfc3986). URL
             SHOULD contain scheme (for example `https://`) otherwise some
@@ -2375,7 +2466,8 @@ components:
         rejectedRedirect:
           type: string
           example: https://www.partnereshop.cz/kosik
-          description: URL of the partner used for redirection of the customer back to
+          description:
+            URL of the partner used for redirection of the customer back to
             partner website after application rejection. MUST be valid URL
             according to [RFC 3986](https://tools.ietf.org/html/rfc3986). URL
             SHOULD contain scheme (for example `https://`) otherwise some
@@ -2384,7 +2476,8 @@ components:
         notificationEndpoint:
           type: string
           example: https://www.partnereshop.cz/order/AA234
-          description: URL of the partner used as a notification endpoint for notifying
+          description:
+            URL of the partner used as a notification endpoint for notifying
             partner about important updates in the application process
             (approval, rejection, cancellation, etc.). MUST be valid URL
             according to [RFC 3986](https://tools.ietf.org/html/rfc3986). URL
@@ -2435,12 +2528,14 @@ components:
         priority:
           type: number
           example: 1
-          description: Identifier of workflow step's priority expressed as number (lowest
+          description:
+            Identifier of workflow step's priority expressed as number (lowest
             number means highest priority)
         mandatory:
           type: boolean
           example: true
-          description: Available workflow step for current application in application
+          description:
+            Available workflow step for current application in application
             process.
         redirect:
           $ref: "#/components/schemas/RedirectURL"
@@ -2454,7 +2549,8 @@ components:
         gatewayRedirectUrl:
           type: string
           example: https://nasplatky.homecredit.cz
-          description: Gateway redirect URL. Partner SHOULD redirect customer to this
+          description:
+            Gateway redirect URL. Partner SHOULD redirect customer to this
             address for continuation of application approval process.
     CancellationObject:
       type: object
@@ -2494,7 +2590,8 @@ components:
             - APPLICATION_CANCELLED_UNFINISHED
             - APPLICATION_CANCELLED_BY_ESHOP_RULES
             - APPLICATION_CANCELLED_OTHER
-          description: Reason of cancellation. Considered as   APPLICATION_CANCELLED_OTHER
+          description:
+            Reason of cancellation. Considered as   APPLICATION_CANCELLED_OTHER
             if not set.
         customReason:
           type: string
@@ -2671,7 +2768,8 @@ components:
         prevPage:
           type: string
           example: transactions?sort=category&limit=10&before=21
-          description: request to retrieve previous page, if it exists and can be
+          description:
+            request to retrieve previous page, if it exists and can be
             unambiguously specified
     Amount:
       type: object
@@ -2687,7 +2785,8 @@ components:
         currency:
           type: string
           example: CZK
-          description: Amount currency [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).
+          description:
+            Amount currency [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).
             Only local currency is allowed (CZK in Czech Republic and EUR in
             Slovakia).
     VatAmount:
@@ -2712,17 +2811,20 @@ components:
         firstName:
           type: string
           example: John
-          description: Customer first (given) name. String values longer than 100
+          description:
+            Customer first (given) name. String values longer than 100
             characters will be shortened to 100 characters.
         lastName:
           type: string
           example: Newborn
-          description: Customer last (family) name. String values longer than 100
+          description:
+            Customer last (family) name. String values longer than 100
             characters will be shortened to 100 characters.
         email:
           type: string
           example: john.newborn@country.com
-          description: E-mail address of customer. MUST be valid email according to [RFC
+          description:
+            E-mail address of customer. MUST be valid email according to [RFC
             2822](https://tools.ietf.org/html/rfc2822).
         phone:
           type: string
@@ -2731,7 +2833,8 @@ components:
         externalId:
           type: string
           example: "1576849"
-          description: Unique customer's identifier in partner's system. Typically used
+          description:
+            Unique customer's identifier in partner's system. Typically used
             for linking request and response together.
     PrecheckResult:
       type: object
@@ -2745,7 +2848,8 @@ components:
         id:
           type: string
           example: "1234"
-          description: Unique identificator of Precheck. Send this identificator in
+          description:
+            Unique identificator of Precheck. Send this identificator in
             ApplicationRequest to improve approval rate.
         recommendation:
           type: boolean
@@ -2774,7 +2878,8 @@ components:
         notificationEndpoint:
           type: string
           example: https://www.youreshop.cz/multiPrecheck/results
-          description: URL of the partner used as a notification endpoint for providing
+          description:
+            URL of the partner used as a notification endpoint for providing
             information about result of multi precheck. Must be valid URL
             according to [RFC 3986](https://tools.ietf.org/html/rfc3986).
             Maximum 1000 characters.
@@ -2849,7 +2954,8 @@ components:
             - MINIMAL
             - FAVOURITE
             - OTHER
-          description: DEPRECATED. Do not use this attribute, use attribute `flags`
+          description:
+            DEPRECATED. Do not use this attribute, use attribute `flags`
             instead. Attribute `type` remains in the API for backward
             compatibility
         flags:
@@ -2867,7 +2973,8 @@ components:
                 amount:
                   type: number
                   example: 221900
-                  description: Amount in minor units (250000 represents 2500 CZK/EUR) [ISO
+                  description:
+                    Amount in minor units (250000 represents 2500 CZK/EUR) [ISO
                     4217](https://en.wikipedia.org/wiki/ISO_4217)
           description: monthly installment amount
         numberOfInstallments:
@@ -2898,7 +3005,8 @@ components:
         delayFirstInstallment:
           type: number
           example: 2
-          description: The number of months for which the installment will be postponed.
+          description:
+            The number of months for which the installment will be postponed.
             Required for `DELAY_FIRST_INSTALLMENT` flag.
         benefit:
           type: string
@@ -2937,7 +3045,8 @@ components:
                 amount:
                   type: number
                   example: 1331400
-                  description: Amount in minor units (250000 represents 2500 CZK/EUR) [ISO
+                  description:
+                    Amount in minor units (250000 represents 2500 CZK/EUR) [ISO
                     4217](https://en.wikipedia.org/wiki/ISO_4217)
           description: Total amount paid by customer
         rpsn:
@@ -2946,7 +3055,8 @@ components:
           description: RPSN
         legalline:
           type: string
-          example: '"Každou žádost posuzujeme individuálně a uvedené hodnoty jsme vám
+          example:
+            '"Každou žádost posuzujeme individuálně a uvedené hodnoty jsme vám
             spočítali na míru.\nPlatí pro čerpání k 10.08.2018, datum první
             splátky je k 20.09.2018 a datum dalších splátek vždy k 20. dni v
             měsíci, počínaje 20.10.2018 a při lhůtě splatnosti 20.02.2019."'
@@ -2976,7 +3086,8 @@ components:
                 amount:
                   type: number
                   example: 250000
-                  description: Amount in minor units (250000 represents 2500 CZK/EUR) [ISO
+                  description:
+                    Amount in minor units (250000 represents 2500 CZK/EUR) [ISO
                     4217](https://en.wikipedia.org/wiki/ISO_4217)
           description: Maximum down payment amount, e.g. 2500 (2 500 CZK/EUR)
         step:
@@ -2989,9 +3100,11 @@ components:
                 amount:
                   type: number
                   example: 50000
-                  description: Amount in minor units (50000 represents 500 CZK/EUR) [ISO
+                  description:
+                    Amount in minor units (50000 represents 500 CZK/EUR) [ISO
                     4217](https://en.wikipedia.org/wiki/ISO_4217)
-          description: "Size of one step between the lowest and maximum down payment
+          description:
+            "Size of one step between the lowest and maximum down payment
             amounts, e.g. 500 (500 CZK/EUR). Available down payments could be
             (min 0, max 2500): 0, 500, 1000, 1500, 2000, 2500"
     InstallmentProgramsRequest:
@@ -3017,7 +3130,8 @@ components:
                   type: number
                   description: Amount in minor units [ISO
                     4217](https://en.wikipedia.org/wiki/ISO_4217)
-          description: Down payment amount (default is 0, amount should be rounded to
+          description:
+            Down payment amount (default is 0, amount should be rounded to
             hundreds)
     InstallmentProgramsOffersRequest:
       type: object
@@ -3027,7 +3141,8 @@ components:
         productSetCode:
           type: string
           example: COCHCONL
-          description: Product set code, this will limit further calculations. If not
+          description:
+            Product set code, this will limit further calculations. If not
             provided, default productSet will be used.
         price:
           $ref: "#/components/schemas/AmountOld"
@@ -3042,7 +3157,8 @@ components:
                   type: number
                   description: Amount in minor units [ISO
                     4217](https://en.wikipedia.org/wiki/ISO_4217)
-          description: Down payment amount (default is 0, amount should be rounded to
+          description:
+            Down payment amount (default is 0, amount should be rounded to
             hundreds)
     InstallmentProgramsDownPaymentsRequest:
       type: object
@@ -3071,7 +3187,8 @@ components:
         currency:
           type: string
           example: CZK
-          description: Amount currency [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).
+          description:
+            Amount currency [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).
             Only local currency is allowed (CZK in Czech Republic and EUR in
             Slovakia).
         vatRate:
@@ -3101,7 +3218,8 @@ components:
         currency:
           type: string
           example: CZK
-          description: Amount currency [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).
+          description:
+            Amount currency [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).
             Only local currency is allowed (CZK in Czech Republic and EUR in
             Slovakia).
     VatAmountOld:
@@ -3153,12 +3271,14 @@ components:
         prefix:
           type: string
           example: "000000"
-          description: Account number prefix. For domestic accounts, this will be
+          description:
+            Account number prefix. For domestic accounts, this will be
             specified in national format.
         accountNumber:
           type: string
           example: "1235335010"
-          description: Account number. For domestic accounts, this will be specified in
+          description:
+            Account number. For domestic accounts, this will be specified in
             national format.
         bankCode:
           type: string
