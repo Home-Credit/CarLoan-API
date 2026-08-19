@@ -1178,8 +1178,9 @@ paths:
                                   applicationOffer:
                                     type: string
                                     description: Application ID with calculation
-                                required:
-                                  - applicationOffer
+                                  dealerApiKey:
+                                    type: string
+                                    description: Dealer identification
                                 description: MUST be provided for `financings.type` = `CONSUMER_LOAN`
                             required:
                               - type
@@ -1413,6 +1414,7 @@ paths:
                       - type: CONSUMER_LOAN
                         consumerLoan:
                           applicationOffer: ""
+                          dealerApiKey: ""
                     carLoan:
                       reservationDate: 2017-07-15T00:00:00+02:00
                       items:
@@ -2381,12 +2383,13 @@ components:
           $ref: "#/components/schemas/SettingsConsumerLoan"
     SettingsConsumerLoan:
       type: object
-      required:
-        - applicationOffer
       properties:
         applicationOffer:
           type: string
           description: Application ID with calculation
+        dealerApiKey:
+          type: string
+          description: Dealer identification
     SettingsInstalment:
       type: object
       properties:
