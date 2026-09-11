@@ -1097,7 +1097,7 @@ paths:
                       required:
                         - applicationCalculationId
                         - dealerApiKey
-                      description: Mandatory if the product calculation was obtained from an external system.
+                      description: MUST be provided for `order.type` = `CAR_LOAN`
                     extendedData:
                       type: array
                       items:
