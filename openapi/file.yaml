@@ -509,6 +509,7 @@ paths:
         - Context information necessary for the continuation and completion of the process
           - Channel type (`ONLINE`)
           - Channel data
+          - External calculation data
 
         If the request was successfully processed, partner receives HTTP status code 201 and `Application` object with at least following information in the response:
 
@@ -1093,6 +1094,9 @@ paths:
                         dealerApiKey:
                           type: string
                           description: Dealer identification
+                      required:
+                        - applicationCalculationId
+                        - dealerApiKey
                       description: Mandatory if the product calculation was obtained from an external system.
                     extendedData:
                       type: array
