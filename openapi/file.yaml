@@ -1084,6 +1084,16 @@ paths:
                       description:
                         Identifier of source or campaign of lead origin. Partner SHOULD
                         provide valid `sourceId`
+                    externalCalculation:
+                      type: object
+                      properties:
+                        applicationCalculationId:
+                          type: string
+                          description: Application ID with calculation created in the external system
+                        dealerApiKey:
+                          type: string
+                          description: Dealer identification
+                      description: Mandatory if the product calculation was obtained from an external system.
                     extendedData:
                       type: array
                       items:
@@ -1172,16 +1182,6 @@ paths:
                                 enum:
                                   - CONSUMER_LOAN
                                 description: Financing type
-                              consumerLoan:
-                                type: object
-                                properties:
-                                  applicationOffer:
-                                    type: string
-                                    description: Application ID with calculation
-                                  dealerApiKey:
-                                    type: string
-                                    description: Dealer identification
-                                description: MUST be provided for `financings.type` = `CONSUMER_LOAN`
                             required:
                               - type
                           description:
@@ -1191,15 +1191,6 @@ paths:
                         carLoan:
                           type: object
                           properties:
-                            reservationDate:
-                              type: string
-                              description:
-                                Date and time until order is reserved. Until `reservationDate` HCO
-                                will try to notify partner with Application
-                                notification about approval or rejection.After
-                                this date and time, e-shop does not guarantee
-                                items availability (if application processing is
-                                longer, it may endanger order fullfillment).
                             items:
                               type: array
                               items:
@@ -1397,6 +1388,9 @@ paths:
                       notificationEndpoint: https://www.partnereshop.cz/order/AA234
                   precheckIds: []
                   sourceId: Cash_10_2020
+                  externalCalculation:
+                    applicationOffer: "ZSUA08/000027"
+                    dealerApiKey: "e9ef06b8-7b64-46da-b119-f6fc84e96fcb"
                   extendedData:
                     - key: property
                       value: value
@@ -1412,11 +1406,7 @@ paths:
                       currency: CZK
                     financings:
                       - type: CONSUMER_LOAN
-                        consumerLoan:
-                          applicationOffer: ""
-                          dealerApiKey: ""
                     carLoan:
-                      reservationDate: 2017-07-15T00:00:00+02:00
                       items:
                         - code: EXC4677-1a
                           ean: "888462064002"
@@ -2232,15 +2222,6 @@ components:
     CarLoanOrder:
       type: object
       properties:
-        reservationDate:
-          type: string
-          example: 2017-07-15T00:00:00+02:00
-          description:
-            Date and time until order is reserved. Until `reservationDate` HCO
-            will try to notify partner with Application notification about
-            approval or rejection.After this date and time, e-shop does not
-            guarantee items availability (if application processing is longer,
-            it may endanger order fullfillment).
         items:
           type: array
           items:
@@ -2259,15 +2240,6 @@ components:
             - ONLINE
             - DELIVERY_CARRIER
           description: Type of service used for goods delivery
-        reservationDate:
-          type: string
-          example: 2017-07-15T00:00:00+02:00
-          description:
-            Date and time until order is reserved. Until `reservationDate` HCO
-            will try to notify partner with Application notification about
-            approval or rejection.After this date and time, e-shop does not
-            guarantee items availability (if application processing is longer,
-            it may endanger order fullfillment).
         items:
           type: array
           items:
@@ -2319,15 +2291,6 @@ components:
             - ONLINE
             - DELIVERY_CARRIER
           description: Type of service used for goods delivery
-        reservationDate:
-          type: string
-          example: 2017-07-15T00:00:00+02:00
-          description:
-            Date and time until order is reserved. Until `reservationDate` HCO
-            will try to notify partner with Application notification about
-            approval or rejection.After this date and time, e-shop does not
-            guarantee items availability (if application processing is longer,
-            it may endanger order fullfillment).
         items:
           type: array
           items:
@@ -2379,17 +2342,6 @@ components:
           enum:
             - CONSUMER_LOAN
           description: Financing type
-        consumerLoan:
-          $ref: "#/components/schemas/SettingsConsumerLoan"
-    SettingsConsumerLoan:
-      type: object
-      properties:
-        applicationOffer:
-          type: string
-          description: Application ID with calculation
-        dealerApiKey:
-          type: string
-          description: Dealer identification
     SettingsInstalment:
       type: object
       properties:
@@ -2433,6 +2385,16 @@ components:
           description:
             Identifier of source or campaign of lead origin. Partner SHOULD
             provide valid `sourceId`
+        externalCalculation:
+          type: object
+          properties:
+            applicationOffer:
+              type: string
+              description: Application ID with calculation
+            dealerApiKey:
+              type: string
+              description: Dealer identification
+          description: Product calculation through an external system
         extendedData:
           type: array
           items:
