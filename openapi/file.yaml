@@ -1286,6 +1286,8 @@ paths:
                                   - name
                                   - totalPrice
                               description: Order items
+                          required:
+                            - items
                           description: MUST be provided for `order.type` = `CAR_LOAN`
                       required:
                         - type
