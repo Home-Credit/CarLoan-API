@@ -1085,7 +1085,7 @@ paths:
                       description:
                         Identifier of source or campaign of lead origin. Partner SHOULD
                         provide valid `sourceId`
-                    externalCalculation:
+                    carLoan:
                       type: object
                       properties:
                         applicationCalculationId:
@@ -1392,7 +1392,7 @@ paths:
                       notificationEndpoint: https://www.partnereshop.cz/order/AA234
                   precheckIds: []
                   sourceId: Cash_10_2020
-                  externalCalculation:
+                  carLoan:
                     applicationOffer: "ZSUA08/000027"
                     dealerApiKey: "e9ef06b8-7b64-46da-b119-f6fc84e96fcb"
                   extendedData:
@@ -2389,7 +2389,7 @@ components:
           description:
             Identifier of source or campaign of lead origin. Partner SHOULD
             provide valid `sourceId`
-        externalCalculation:
+        carLoan:
           type: object
           properties:
             applicationOffer:
