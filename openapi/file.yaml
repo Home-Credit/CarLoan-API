@@ -1200,6 +1200,12 @@ paths:
                               items:
                                 type: object
                                 properties:
+                                  type:
+                                    type: string
+                                    enum:
+                                      - CAR
+                                      - ACCESSORY
+                                    description: Type of the item.
                                   code:
                                     type: string
                                     description:
@@ -1283,6 +1289,7 @@ paths:
                                           - content
                                     description: Item image
                                 required:
+                                  - type
                                   - name
                                   - totalPrice
                               description: Order items
@@ -1414,7 +1421,8 @@ paths:
                       - type: CONSUMER_LOAN
                     carLoan:
                       items:
-                        - code: EXC4677-1a
+                        - type: CAR
+                          code: EXC4677-1a
                           ean: "888462064002"
                           name: iPhone 6s 32GB SpaceGray
                           quantity: 1
@@ -2231,7 +2239,18 @@ components:
         items:
           type: array
           items:
-            $ref: "#/components/schemas/OrderItem"
+            allOf:
+              - $ref: "#/components/schemas/OrderItem"
+              - type: object
+                required:
+                  - type
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - CAR
+                      - ACCESSORY
+                    description: Type of the item.
           description: Order items
     StandardOrder:
       type: object
