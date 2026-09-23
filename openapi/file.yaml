@@ -1402,7 +1402,7 @@ paths:
                   precheckIds: []
                   sourceId: Cash_10_2020
                   carLoan:
-                    applicationOffer: "ZSUA08/000027"
+                    applicationCalculationId: "ZSUA08/000027"
                     dealerApiKey: "e9ef06b8-7b64-46da-b119-f6fc84e96fcb"
                   extendedData:
                     - key: property
@@ -2413,9 +2413,9 @@ components:
         carLoan:
           type: object
           properties:
-            applicationOffer:
+            applicationCalculationId:
               type: string
-              description: Application ID with calculation
+              description: Application ID with calculation created in the external system
             dealerApiKey:
               type: string
               description: Dealer identification
