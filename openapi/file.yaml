@@ -503,9 +503,6 @@ paths:
           - Type of order (`CAR_LOAN`)
           - Total Price (including VAT)
           - Order number (internal for partner)
-          - Order items (array)
-            - Order item name
-            - Order item URL or content
         - Context information necessary for the continuation and completion of the process
           - Channel type (`ONLINE`)
           - Channel data
@@ -1088,16 +1085,16 @@ paths:
                     carLoan:
                       type: object
                       properties:
-                        applicationCalculationId:
+                        calculationId:
                           type: string
-                          description: Application ID with calculation created in the external system
+                          description: Calculation ID created in the external system
                         dealerApiKey:
                           type: string
                           description: Dealer identification
                       required:
-                        - applicationCalculationId
+                        - calculationId
                         - dealerApiKey
-                      description: MUST be provided for `order.type` = `CAR_LOAN`
+                      description: Product calculation through an external system. MUST be provided for `order.type` = `CAR_LOAN`
                     extendedData:
                       type: array
                       items:
@@ -1192,110 +1189,6 @@ paths:
                             Information about form of financing ORDER application. MUST be
                             provided with at least `type` of `financing` for
                             orders with only single financing.
-                        carLoan:
-                          type: object
-                          properties:
-                            items:
-                              type: array
-                              items:
-                                type: object
-                                properties:
-                                  type:
-                                    type: string
-                                    enum:
-                                      - CAR
-                                      - ACCESSORY
-                                    description: Type of the item.
-                                  code:
-                                    type: string
-                                    description:
-                                      Internal code for item (internal to e-shop). Used to better
-                                      identify the item for future changes.
-                                      Maximum 100 characters
-                                  ean:
-                                    type: string
-                                    description: EAN code. Maximum 32 characters
-                                  name:
-                                    type: string
-                                    description:
-                                      Item name. String values longer than 60 characters will be
-                                      shortened to 60 characters.
-                                  quantity:
-                                    type: number
-                                    description: Item quantity. If empty, considered as 1.
-                                  totalPrice:
-                                    type: object
-                                    properties:
-                                      value:
-                                        type: number
-                                        description:
-                                          Amount in minor units (13300 represents 133) [ISO
-                                          4217](https://en.wikipedia.org/wiki/ISO_4217)
-                                      currency:
-                                        type: string
-                                        description:
-                                          Amount currency [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).
-                                          Only local currency is allowed (CZK in
-                                          Czech Republic and EUR in Slovakia).
-                                    required:
-                                      - value
-                                      - currency
-                                    description: Total price for all pieces (including VAT)
-                                  unitPrice:
-                                    type: object
-                                    properties:
-                                      value:
-                                        type: number
-                                        description:
-                                          Amount in minor units (13300 represents 133) [ISO
-                                          4217](https://en.wikipedia.org/wiki/ISO_4217)
-                                      currency:
-                                        type: string
-                                        description:
-                                          Amount currency [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).
-                                          Only local currency is allowed (CZK in
-                                          Czech Republic and EUR in Slovakia).
-                                    required:
-                                      - value
-                                      - currency
-                                    description:
-                                      Price per one piece. If empty, automatically considered that
-                                      `unitPrice` is `totalPrice` / `quantity`.
-                                  producer:
-                                    type: string
-                                    description: MUST NOT be longer than 50 characters.
-                                  image:
-                                    type: object
-                                    properties:
-                                      filename:
-                                        type: string
-                                        description: File name.
-                                    required:
-                                      - filename
-                                    oneOf:
-                                      - properties:
-                                          url:
-                                            type: string
-                                            description: File URL (full).
-                                        required:
-                                          - url
-                                      - properties:
-                                          content:
-                                            type: string
-                                            description:
-                                              File content (Base64 encoded, maximum size of encoded string is
-                                              500kB)
-                                        required:
-                                          - content
-                                    description: Item image
-                                required:
-                                  - type
-                                  - name
-                                  - totalPrice
-                              description: Order items
-                          required:
-                            - items
-                          description: MUST be provided for `order.type` = `CAR_LOAN`
                       required:
                         - type
                         - totalPrice
@@ -1402,7 +1295,7 @@ paths:
                   precheckIds: []
                   sourceId: Cash_10_2020
                   carLoan:
-                    applicationCalculationId: "ZSUA08/000027"
+                    calculationId: "ZSUA08/000027"
                     dealerApiKey: "e9ef06b8-7b64-46da-b119-f6fc84e96fcb"
                   extendedData:
                     - key: property
@@ -1419,23 +1312,6 @@ paths:
                       currency: CZK
                     financings:
                       - type: CONSUMER_LOAN
-                    carLoan:
-                      items:
-                        - type: CAR
-                          code: EXC4677-1a
-                          ean: "888462064002"
-                          name: iPhone 6s 32GB SpaceGray
-                          quantity: 1
-                          totalPrice:
-                            value: 13300
-                            currency: CZK
-                          unitPrice:
-                            value: 13300
-                            currency: CZK
-                          producer: "'Honda'"
-                          image:
-                            filename: auticko.jpg
-                            url: https://i.cdn.nrholding.net/32523771/2000/2000/auticko.jpg
   "/financing/v3/applications/{applicationId}/orders/deliver":
     put:
       responses:
@@ -2231,27 +2107,6 @@ components:
             Information about form of financing ORDER application. MUST be
             provided with at least `type` of `financing` for orders with only
             single financing.
-        carLoan:
-          $ref: "#/components/schemas/CarLoanOrder"
-    CarLoanOrder:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            allOf:
-              - $ref: "#/components/schemas/OrderItem"
-              - type: object
-                required:
-                  - type
-                properties:
-                  type:
-                    type: string
-                    enum:
-                      - CAR
-                      - ACCESSORY
-                    description: Type of the item.
-          description: Order items
     StandardOrder:
       type: object
       required:
@@ -2413,13 +2268,16 @@ components:
         carLoan:
           type: object
           properties:
-            applicationCalculationId:
+            calculationId:
               type: string
-              description: Application ID with calculation created in the external system
+              description: Calculation ID created in the external system
             dealerApiKey:
               type: string
               description: Dealer identification
-          description: Product calculation through an external system
+          required:
+            - calculationId
+            - dealerApiKey
+          description: Product calculation through an external system. MUST be provided for `order.type` = `CAR_LOAN`
         extendedData:
           type: array
           items:
