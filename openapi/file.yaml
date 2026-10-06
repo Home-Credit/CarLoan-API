@@ -501,12 +501,11 @@ paths:
 
         - Order (or other product) details
           - Type of order (`CAR_LOAN`)
-          - Total Price (including VAT)
           - Order number (internal for partner)
+          - Car loan data (external calculation ID and dealer ID)
         - Context information necessary for the continuation and completion of the process
           - Channel type (`ONLINE`)
           - Channel data
-          - External calculation data
 
         If the request was successfully processed, partner receives HTTP status code 201 and `Application` object with at least following information in the response:
 
@@ -1082,19 +1081,6 @@ paths:
                       description:
                         Identifier of source or campaign of lead origin. Partner SHOULD
                         provide valid `sourceId`
-                    carLoan:
-                      type: object
-                      properties:
-                        calculationId:
-                          type: string
-                          description: Calculation ID created in the external system
-                        dealerApiKey:
-                          type: string
-                          description: Dealer identification
-                      required:
-                        - calculationId
-                        - dealerApiKey
-                      description: Product calculation through an external system. MUST be provided for `order.type` = `CAR_LOAN`
                     extendedData:
                       type: array
                       items:
@@ -1142,37 +1128,6 @@ paths:
                             inetmediary). MAY be provided for easier
                             identification of application on partner's side.
                             MUST NOT be longer than 100 characters.
-                        specificSymbol:
-                          type: string
-                          description:
-                            Specific symbol (internal for partner) for reconciliation payment.
-                            MUST NOT be longer than 10 characters
-                        variableSymbol:
-                          type: string
-                          description:
-                            Variable symbol (internal for e-shop) for reconciliation payment.
-                            MUST NOT be longer than 10 characters. If empty,
-                            `order.number` is used instead. If not provided or
-                            not usable (e.g. `order.number` contains only
-                            letters) Home Credit internal identifier is used.
-                        totalPrice:
-                          type: object
-                          properties:
-                            value:
-                              type: number
-                              description:
-                                Amount in minor units (13300 represents 133) [ISO
-                                4217](https://en.wikipedia.org/wiki/ISO_4217)
-                            currency:
-                              type: string
-                              description:
-                                Amount currency [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).
-                                Only local currency is allowed (CZK in Czech
-                                Republic and EUR in Slovakia).
-                          required:
-                            - value
-                            - currency
-                          description: Total order amount, including VAT
                         financings:
                           type: array
                           items:
@@ -1189,10 +1144,23 @@ paths:
                             Information about form of financing ORDER application. MUST be
                             provided with at least `type` of `financing` for
                             orders with only single financing.
+                        carLoan:
+                          type: object
+                          properties:
+                            calculationId:
+                              type: string
+                              description: Calculation ID created in the external system
+                            dealerId:
+                              type: string
+                              description: Dealer identification
+                          required:
+                            - calculationId
+                            - dealerId
+                          description: Product calculation through an external system. MUST be provided for `order.type` = `CAR_LOAN`
                       required:
                         - type
-                        - totalPrice
                         - financings
+                        - carLoan
                       description:
                         Information about customer's purchase of goods. REQUIRED for ORDER
                         type of Financed subject
@@ -1294,9 +1262,6 @@ paths:
                       notificationEndpoint: https://www.partnereshop.cz/order/AA234
                   precheckIds: []
                   sourceId: Cash_10_2020
-                  carLoan:
-                    calculationId: "ZSUA08/000027"
-                    dealerApiKey: "e9ef06b8-7b64-46da-b119-f6fc84e96fcb"
                   extendedData:
                     - key: property
                       value: value
@@ -1305,13 +1270,11 @@ paths:
                   order:
                     type: CAR_LOAN
                     number: "11111111"
-                    specificSymbol: "1122334455"
-                    variableSymbol: "1234567"
-                    totalPrice:
-                      value: 13300
-                      currency: CZK
                     financings:
                       - type: CONSUMER_LOAN
+                    carLoan:
+                      calculationId: "ZSUA08/000027"
+                      dealerId: "e9ef06b8-7b64-46da-b119-f6fc84e96fcb"
   "/financing/v3/applications/{applicationId}/orders/deliver":
     put:
       responses:
@@ -2068,8 +2031,8 @@ components:
       type: object
       required:
         - type
-        - totalPrice
         - financings
+        - carLoan
       properties:
         type:
           type: string
@@ -2083,22 +2046,6 @@ components:
             inetmediary). MAY be provided for easier identification of
             application on partner's side. MUST NOT be longer than 100
             characters.
-        specificSymbol:
-          type: string
-          example: "1122334455"
-          description:
-            Specific symbol (internal for partner) for reconciliation payment.
-            MUST NOT be longer than 10 characters
-        variableSymbol:
-          type: string
-          example: "1234567"
-          description:
-            Variable symbol (internal for e-shop) for reconciliation payment.
-            MUST NOT be longer than 10 characters. If empty, `order.number` is
-            used instead. If not provided or not usable (e.g. `order.number`
-            contains only letters) Home Credit internal identifier is used.
-        totalPrice:
-          $ref: "#/components/schemas/Amount"
         financings:
           type: array
           items:
@@ -2107,6 +2054,19 @@ components:
             Information about form of financing ORDER application. MUST be
             provided with at least `type` of `financing` for orders with only
             single financing.
+        carLoan:
+          type: object
+          properties:
+            calculationId:
+              type: string
+              description: Calculation ID created in the external system
+            dealerId:
+              type: string
+              description: Dealer identification
+          required:
+            - calculationId
+            - dealerId
+          description: Product calculation through an external system. MUST be provided for `order.type` = `CAR_LOAN`
     StandardOrder:
       type: object
       required:
@@ -2265,19 +2225,6 @@ components:
           description:
             Identifier of source or campaign of lead origin. Partner SHOULD
             provide valid `sourceId`
-        carLoan:
-          type: object
-          properties:
-            calculationId:
-              type: string
-              description: Calculation ID created in the external system
-            dealerApiKey:
-              type: string
-              description: Dealer identification
-          required:
-            - calculationId
-            - dealerApiKey
-          description: Product calculation through an external system. MUST be provided for `order.type` = `CAR_LOAN`
         extendedData:
           type: array
           items:
