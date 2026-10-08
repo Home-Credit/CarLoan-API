@@ -526,19 +526,24 @@ paths:
         - and previously created `Application` is neither canceled nor new anymore, HTTP status code 422 is returned with error code `DUPLICATE_ORDER_NUMBER`.
 
 
+        Value of `ApplicationRequest.financedSubject.order.carLoan.calculationId` MUST be unique. If it is already used by another `Application` which is neither canceled (`Application.status = CANCELLED`) nor rejected (`Application.status = REJECTED`), no new `Application` is created and HTTP status code 422 is returned with error code `DUPLICATE_CALCULATION_ID`.
+
+
         In case of an error, you receive one of the following results:
 
-        | Status code | Code                   | Explanation                                                                     |
+        | Status code | Code                     | Explanation                                                                     |
 
-        | ---         | ---                    | ---                                                                             |
+        | ---         | ---                      | ---                                                                             |
 
-        | 400         | INVALID_REQUEST        | Request was not well-formatted (malformed request syntax, size too large, etc.) |
+        | 400         | INVALID_REQUEST          | Request was not well-formatted (malformed request syntax, size too large, etc.) |
 
-        | 422         | UNPROCESSABLE          | Request was well-formed but was unable to be followed due to semantic errors    |
+        | 422         | UNPROCESSABLE            | Request was well-formed but was unable to be followed due to semantic errors    |
 
-        | 422         | DUPLICATE_ORDER_NUMBER | Creating of Application with duplicated Order number is not allowed             |
+        | 422         | DUPLICATE_ORDER_NUMBER   | Creating of Application with duplicated Order number is not allowed             |
 
-        | 500         | INTERNAL_SERVER_ERROR  | Unexpected condition was encountered and no more specific message is suitable   |
+        | 422         | DUPLICATE_CALCULATION_ID | Creating of Application with already used calculation ID is not allowed         |
+
+        | 500         | INTERNAL_SERVER_ERROR    | Unexpected condition was encountered and no more specific message is suitable   |
 
 
         Create a new *application*
@@ -1149,7 +1154,7 @@ paths:
                           properties:
                             calculationId:
                               type: string
-                              description: Calculation ID created in the external system
+                              description: Calculation ID created in the external system. MUST be unique among applications which are neither canceled nor rejected.
                             dealerId:
                               type: string
                               description: Dealer identification
@@ -2059,7 +2064,7 @@ components:
           properties:
             calculationId:
               type: string
-              description: Calculation ID created in the external system
+              description: Calculation ID created in the external system. MUST be unique among applications which are neither canceled nor rejected.
             dealerId:
               type: string
               description: Dealer identification
