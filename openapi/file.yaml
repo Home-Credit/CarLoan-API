@@ -41,6 +41,8 @@ info:
 
     | [Merchantsite resources](#reference/merchantsite-resources) | Resources that should be developed and exposed by a partner to allow HC asynchronously inform it about important changes regarding particular *applications* |
 
+    | [Register resources](#reference/register-resources)         | Resources that provides allowed values of codelists used in Application resources                                                                            |
+
 
     ### Basic implementation
 
@@ -502,7 +504,8 @@ paths:
         - Order (or other product) details
           - Type of order (`CAR_LOAN`)
           - Order number (internal for partner)
-          - Car loan data (external calculation ID and dealer ID)
+          - Car loan data (calculation ID and dealer ID)
+          - Vehicle registration office code (MAY be provided in the optional attribute `vehicleRegistrationOfficeCode`)
         - Context information necessary for the continuation and completion of the process
           - Channel type (`ONLINE`)
           - Channel data
@@ -1158,6 +1161,10 @@ paths:
                             dealerId:
                               type: string
                               description: Dealer identification
+                            vehicleRegistrationOfficeCode:
+                              type: string
+                              example: "019"
+                              description: Code of the municipality with extended powers (ORP) where the vehicle re-registration (change of owner) will take place. MAY be provided. Allowed values are obtained from the register `MUNICIPALITY_EXTENDED_POWERS` using the [Get register](#reference/register-resources/get-register) resource (`/financing/v3/registers`).
                           required:
                             - calculationId
                             - dealerId
@@ -1280,6 +1287,7 @@ paths:
                     carLoan:
                       calculationId: "ZSUA08/000027"
                       dealerId: "e9ef06b8-7b64-46da-b119-f6fc84e96fcb"
+                      vehicleRegistrationOfficeCode: "019"
   "/financing/v3/applications/{applicationId}/orders/deliver":
     put:
       responses:
@@ -1512,6 +1520,59 @@ paths:
           example: 123e4567-e89b-12d3-a456-426655440000
           schema:
             type: string
+  /financing/v3/registers:
+    get:
+      responses:
+        "200":
+          description: register values
+          headers: {}
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/RegisterResponse"
+              examples:
+                response:
+                  value:
+                    items:
+                      - code: "019"
+                        name: Praha
+        "404":
+          description: Register not found
+          headers: {}
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Errors"
+              examples:
+                response:
+                  value:
+                    errors:
+                      - code: NOT_FOUND
+                        message: Register not found
+                        severity: ERROR
+                        ticketId: UAT1:AMS:20160516-091658.450:45e4
+      summary: Get register
+      operationId: Get register
+      description: >-
+        To easily find out current allowed values for defined register that can
+        be used for creation of application.
+
+        Search for *register*.
+      tags:
+        - Register resources
+      parameters:
+        - name: registers
+          in: query
+          description: >-
+            available registers
+
+            + `MUNICIPALITY_EXTENDED_POWERS` - definition of municipality with extended powers (Praha, Kladno, etc.)
+          required: true
+          example: MUNICIPALITY_EXTENDED_POWERS
+          schema:
+            type: string
+            enum:
+              - MUNICIPALITY_EXTENDED_POWERS
   /financing/v3/health:
     get:
       responses:
@@ -1789,6 +1850,9 @@ tags:
   - name: Application resources
     description: Services that allow the processing of *application* during its
       whole lifecycle.
+  - name: Register resources
+    description: Services that provide information about allowed values of defined
+      registers that can be used for creation of application.
   - name: Health check
     description: To check the availability of back-end services use the [health
       check resource](#reference/health-check/health-check).
@@ -2068,6 +2132,10 @@ components:
             dealerId:
               type: string
               description: Dealer identification
+            vehicleRegistrationOfficeCode:
+              type: string
+              example: "019"
+              description: Code of the municipality with extended powers (ORP) where the vehicle re-registration (change of owner) will take place. MAY be provided. Allowed values are obtained from the register `MUNICIPALITY_EXTENDED_POWERS` using the [Get register](#reference/register-resources/get-register) resource (`/financing/v3/registers`).
           required:
             - calculationId
             - dealerId
@@ -2542,6 +2610,28 @@ components:
           items:
             $ref: "#/components/schemas/Error"
           description: Array with errors
+    RegisterResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/CodeName"
+          description: Register items.
+    CodeName:
+      type: object
+      required:
+        - code
+        - name
+      properties:
+        code:
+          type: string
+          example: "019"
+          description: Code
+        name:
+          type: string
+          example: Praha
+          description: Name
     OTPErrors:
       allOf:
         - $ref: "#/components/schemas/Errors"
