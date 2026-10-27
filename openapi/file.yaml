@@ -1163,7 +1163,7 @@ paths:
                               description: Dealer identification
                             vehicleRegistrationOfficeCode:
                               type: string
-                              example: "019"
+                              example: "19"
                               description: Code of the municipality with extended powers (ORP) where the vehicle re-registration (change of owner) will take place. MAY be provided. Allowed values are obtained from the register `MUNICIPALITY_EXTENDED_POWERS` using the [Get register](#reference/register-resources/get-register) resource (`/financing/v3/registers`).
                           required:
                             - calculationId
@@ -1287,7 +1287,7 @@ paths:
                     carLoan:
                       calculationId: "ZSUA08/000027"
                       dealerId: "e9ef06b8-7b64-46da-b119-f6fc84e96fcb"
-                      vehicleRegistrationOfficeCode: "019"
+                      vehicleRegistrationOfficeCode: "19"
   "/financing/v3/applications/{applicationId}/orders/deliver":
     put:
       responses:
@@ -1534,7 +1534,7 @@ paths:
                 response:
                   value:
                     items:
-                      - code: "019"
+                      - code: "19"
                         name: Praha
         "404":
           description: Register not found
@@ -1561,7 +1561,7 @@ paths:
       tags:
         - Register resources
       parameters:
-        - name: registers
+        - name: register
           in: query
           description: >-
             available registers
@@ -2134,7 +2134,7 @@ components:
               description: Dealer identification
             vehicleRegistrationOfficeCode:
               type: string
-              example: "019"
+              example: "19"
               description: Code of the municipality with extended powers (ORP) where the vehicle re-registration (change of owner) will take place. MAY be provided. Allowed values are obtained from the register `MUNICIPALITY_EXTENDED_POWERS` using the [Get register](#reference/register-resources/get-register) resource (`/financing/v3/registers`).
           required:
             - calculationId
@@ -2626,7 +2626,7 @@ components:
       properties:
         code:
           type: string
-          example: "019"
+          example: "19"
           description: Code
         name:
           type: string
