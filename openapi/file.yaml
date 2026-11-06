@@ -2434,6 +2434,8 @@ components:
             - APPLICATION_CANCELLED_UNFINISHED
             - APPLICATION_CANCELLED_BY_ESHOP_RULES
             - APPLICATION_CANCELLED_OTHER
+            - CALCULATION_INACCESSIBLE
+            - CALCULATION_INVALID
           description: Reason of cancellation.
     InstallmentProgramProductSet:
       type: object
